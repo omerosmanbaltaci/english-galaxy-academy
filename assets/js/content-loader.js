@@ -254,6 +254,13 @@ function parseYAMLFrontMatter(text) {
 function renderMetadata(headerEl, breadcrumbEl, meta, srcPath) {
     const title = meta.title || 'Untitled Resource';
     document.title = `${title} | English Galaxy Academy`;
+    let metaDesc = document.querySelector('meta[name="description"]');
+    if (!metaDesc) {
+        metaDesc = document.createElement('meta');
+        metaDesc.name = "description";
+        document.head.appendChild(metaDesc);
+    }
+    metaDesc.content = meta.description || `Learn ${title} at English Galaxy Academy.`;
 
     // Dynamic Breadcrumbs construction
     const pathParts = srcPath.replace('content/', '').replace('.md', '').split('/');

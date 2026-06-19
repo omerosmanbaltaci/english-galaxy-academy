@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "lite-server",
     "index": "node scripts/generate-search-index.js",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate && npm run index && node scripts/generate-sitemap.js"
   },
   "keywords": [
     "english",

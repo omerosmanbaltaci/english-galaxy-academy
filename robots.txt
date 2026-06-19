@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /settings
+Disallow: /scripts
+Disallow: /assets/uploads
+
+Sitemap: https://english-galaxy-academy.vercel.app/sitemap.xml
