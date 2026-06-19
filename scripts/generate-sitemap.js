@@ -30,9 +30,9 @@ function generateSitemap() {
   // Add dynamic lesson URLs
   indexData.forEach(item => {
     // For markdown files like content/primary/grade-1/lessons/unit-1-greetings.md
-    if (item.path.includes('/lessons/') || item.path.includes('/blog/')) {
+    if (item.id && (item.id.includes('/lessons/') || item.id.includes('/blog/'))) {
         let url = '';
-        if (item.path.startsWith('content/blog/')) {
+        if (item.id.startsWith('content/blog/')) {
             url = `/viewer?id=${item.id}`;
         } else if (item.level && item.grade && item.unit) {
             url = `/unit?grade=${item.grade}&unit=${item.unit}`;
