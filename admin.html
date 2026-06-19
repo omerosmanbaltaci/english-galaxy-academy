@@ -41,7 +41,8 @@
     <div class="login-box">
         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 20px;"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
         <h2 style="margin-bottom: 30px;">Galaxy Admin</h2>
-        <input type="password" id="admin-password" placeholder="Admin Password" autofocus onkeypress="if(event.key === 'Enter') checkAdminLogin()">
+        <input type="email" id="admin-email" placeholder="Admin Email" value="admin@englishgalaxy.com" autofocus style="margin-bottom: var(--space-sm);">
+        <input type="password" id="admin-password" placeholder="Admin Password" onkeypress="if(event.key === 'Enter') checkAdminLogin()">
         <button onclick="checkAdminLogin()">Access Terminal</button>
         <div id="login-error" class="login-error">Incorrect password. Access denied.</div>
     </div>

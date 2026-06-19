@@ -468,23 +468,41 @@ function escapeHTML(str) {
 
 // --- AUTHENTICATION LOGIC ---
 function checkAdminLogin() {
+    const email = document.getElementById('admin-email').value;
     const pwd = document.getElementById('admin-password').value;
     const errorDiv = document.getElementById('login-error');
+    const btn = document.querySelector('.login-box button');
     
-    // For this prototype, we'll use a hardcoded password "patron123"
-    if (pwd === 'patron123') {
-        errorDiv.style.display = 'none';
-        localStorage.setItem('adminToken', 'mock_admin_token');
-        ADMIN_TOKEN = 'mock_admin_token';
-        
-        document.getElementById('admin-login-overlay').style.display = 'none';
-        document.getElementById('admin-layout-wrapper').style.display = 'flex';
-        
-        loadLessons();
-        loadTeachers();
-    } else {
+    btn.innerText = 'Authenticating...';
+    
+    fetch(API_URL + '/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password: pwd })
+    })
+    .then(res => res.json())
+    .then(data => {
+        btn.innerText = 'Access Terminal';
+        if (data.token && data.user.role === 'ADMIN') {
+            errorDiv.style.display = 'none';
+            localStorage.setItem('adminToken', data.token);
+            ADMIN_TOKEN = data.token;
+            
+            document.getElementById('admin-login-overlay').style.display = 'none';
+            document.getElementById('admin-layout-wrapper').style.display = 'flex';
+            
+            loadLessons();
+            loadTeachers();
+        } else {
+            errorDiv.innerText = data.error || 'Access denied. Admins only.';
+            errorDiv.style.display = 'block';
+        }
+    })
+    .catch(err => {
+        btn.innerText = 'Access Terminal';
+        errorDiv.innerText = 'Connection error.';
         errorDiv.style.display = 'block';
-    }
+    });
 }
 
 function logoutAdmin() {
