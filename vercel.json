@@ -1,5 +1,12 @@
 {
   "version": 2,
+  "env": {
+    "DATABASE_URL": "postgres://26d886aeed597ca2c67059ef47e83f968f27db3e5dda727a87729b9491d7049d:sk_NdZp48SHpOgKGK8hS2AQc@db.prisma.io:5432/postgres?sslmode=require",
+    "JWT_SECRET": "cok-gizli-bir-sifre-12345",
+    "CLOUDINARY_CLOUD_NAME": "doegfv0nt",
+    "CLOUDINARY_API_KEY": "519514826271485",
+    "CLOUDINARY_API_SECRET": "ScOsSiLx_Y777S5VlGlsMuQPVzk"
+  },
   "builds": [
     {
       "src": "server.js",
