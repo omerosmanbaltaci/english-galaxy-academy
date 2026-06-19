@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
 const multer = require('multer');
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const cloudinary = require('cloudinary').v2;
 const path = require('path');
 const { PrismaClient } = require('@prisma/client');
 const bcrypt = require('bcrypt');
@@ -13,6 +15,13 @@ const prisma = new PrismaClient();
 const PORT = process.env.PORT || 3000;
 const JWT_SECRET = process.env.JWT_SECRET || 'super-secret-key-12345';
 
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -21,15 +30,13 @@ app.use(express.urlencoded({ extended: true }));
 // Serve static frontend files
 app.use(express.static(path.join(__dirname, '/')));
 
-// Configure Multer for File Uploads
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'assets/uploads/')
+// Configure Multer for File Uploads to Cloudinary
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+        folder: 'english-galaxy-uploads',
+        resource_type: 'auto' // Supports PDFs, images, etc.
     },
-    filename: function (req, file, cb) {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-        cb(null, uniqueSuffix + '-' + file.originalname)
-    }
 });
 const upload = multer({ storage: storage });
 
@@ -67,21 +74,34 @@ const requireAdmin = (req, res, next) => {
 // --- API ENDPOINTS ---
 
 // --- THEME ENDPOINTS ---
-app.get('/api/theme', (req, res) => {
-    const themePath = path.join(__dirname, 'settings', 'theme.json');
-    if (fs.existsSync(themePath)) {
-        res.json(JSON.parse(fs.readFileSync(themePath, 'utf8')));
-    } else {
+app.get('/api/theme', async (req, res) => {
+    try {
+        const settings = await prisma.siteSettings.findUnique({ where: { id: 'global' } });
+        if (settings && settings.theme) {
+            return res.json(settings.theme);
+        }
+        // Fallback to local theme.json if db is empty (for legacy support)
+        const themePath = path.join(__dirname, 'settings', 'theme.json');
+        if (fs.existsSync(themePath)) {
+            res.json(JSON.parse(fs.readFileSync(themePath, 'utf8')));
+        } else {
+            res.json({});
+        }
+    } catch (err) {
         res.json({});
     }
 });
 
-app.post('/api/theme', authenticate, requireAdmin, (req, res) => {
-    const themePath = path.join(__dirname, 'settings', 'theme.json');
+app.post('/api/theme', authenticate, requireAdmin, async (req, res) => {
     try {
-        fs.writeFileSync(themePath, JSON.stringify(req.body, null, 2), 'utf8');
+        await prisma.siteSettings.upsert({
+            where: { id: 'global' },
+            update: { theme: req.body },
+            create: { id: 'global', theme: req.body }
+        });
         res.json({ message: "Theme updated successfully" });
     } catch (err) {
+        console.error(err);
         res.status(500).json({ error: "Failed to save theme" });
     }
 });
@@ -287,9 +307,8 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
     if (!req.file) {
         return res.status(400).json({ error: "No file uploaded" });
     }
-    // Return the path so the frontend can save it to the DB
-    const fileUrl = 'assets/uploads/' + req.file.filename;
-    res.json({ url: fileUrl });
+    // Return the Cloudinary URL so the frontend can save it to the DB
+    res.json({ url: req.file.path });
 });
 
 // Start Server
