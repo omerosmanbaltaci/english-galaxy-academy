@@ -234,9 +234,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.getElementById('upload-result').innerHTML = `
                         File uploaded successfully!<br>
                         URL: <code style="background:var(--bg-main); padding:4px;">${data.url}</code>
-                        <br><br>Copy this URL and paste it into the PDF/Media fields in the Content Editor.
                     `;
                     fileInput.value = '';
+                    loadMediaGallery(); // Refresh the gallery
                 }
             } catch (err) {
                 alert('Upload failed.');
@@ -450,6 +450,7 @@ function switchTab(tabId) {
     event.currentTarget.classList.add('active');
     
     if (tabId === 'teacher-approvals') loadTeachers();
+    if (tabId === 'media-manager') loadMediaGallery();
 }
 
 function escapeHTML(str) {
@@ -492,4 +493,69 @@ function logoutAdmin() {
     document.getElementById('admin-password').value = '';
     document.getElementById('admin-layout-wrapper').style.display = 'none';
     document.getElementById('admin-login-overlay').style.display = 'flex';
+}
+
+// --- MEDIA GALLERY ---
+async function loadMediaGallery() {
+    const gallery = document.getElementById('media-gallery');
+    if (!gallery) return;
+    gallery.innerHTML = '<div style="text-align:center; grid-column: 1 / -1; padding: 2rem;">Loading media from Cloudinary...</div>';
+
+    try {
+        const res = await fetch(API_URL + '/admin/media', {
+            headers: { 'Authorization': 'Bearer ' + ADMIN_TOKEN }
+        });
+        const resources = await res.json();
+        
+        if (!res.ok) throw new Error('Failed to load media');
+        
+        if (resources.length === 0) {
+            gallery.innerHTML = '<div style="text-align:center; grid-column: 1 / -1; padding: 2rem;">No media files uploaded yet.</div>';
+            return;
+        }
+
+        gallery.innerHTML = resources.map(file => {
+            const isImage = file.format === 'jpg' || file.format === 'png' || file.format === 'gif' || file.format === 'webp';
+            const icon = isImage ? \<img src="\" style="width:100%; height:120px; object-fit:cover; border-radius:8px; margin-bottom:8px;">\ 
+                                 : \<div style="height:120px; background:var(--bg-main); border-radius:8px; display:flex; align-items:center; justify-content:center; margin-bottom:8px;"><i data-lucide="file" style="width:48px; height:48px; color:var(--primary);"></i></div>\;
+            
+            return \
+                <div class="admin-card" style="padding: 12px; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        \
+                        <div style="font-size:0.85rem; word-break:break-all; margin-bottom:8px; color:var(--text-color);">
+                            <strong>\</strong><br>
+                            <span style="color:var(--text-muted);">\ KB</span>
+                        </div>
+                    </div>
+                    <div style="display:flex; gap:8px;">
+                        <button class="btn btn-outline" style="flex:1; padding:6px; font-size:0.8rem;" onclick="navigator.clipboard.writeText('\'); alert('URL Copied!')">Copy URL</button>
+                        <button class="btn" style="background:#ef4444; color:white; padding:6px;" onclick="deleteMedia('\')"><i data-lucide="trash-2" style="width:16px;"></i></button>
+                    </div>
+                </div>
+            \;
+        }).join('');
+        lucide.createIcons();
+    } catch (err) {
+        gallery.innerHTML = '<div style="text-align:center; grid-column: 1 / -1; padding: 2rem; color: #ef4444;">Error loading media. Ensure Cloudinary keys are set in .env.</div>';
+    }
+}
+
+async function deleteMedia(publicId) {
+    if (!confirm('Are you sure you want to permanently delete this file? This will break any lessons using this URL.')) return;
+    
+    try {
+        const res = await fetch(API_URL + '/admin/media?public_id=' + encodeURIComponent(publicId), {
+            method: 'DELETE',
+            headers: { 'Authorization': 'Bearer ' + ADMIN_TOKEN }
+        });
+        
+        if (res.ok) {
+            loadMediaGallery();
+        } else {
+            alert('Failed to delete file.');
+        }
+    } catch (err) {
+        alert('Connection error.');
+    }
 }

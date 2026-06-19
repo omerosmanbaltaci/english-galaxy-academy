@@ -307,8 +307,35 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
     if (!req.file) {
         return res.status(400).json({ error: "No file uploaded" });
     }
-    // Return the Cloudinary URL so the frontend can save it to the DB
     res.json({ url: req.file.path });
+});
+
+// Admin get media
+app.get('/api/admin/media', authenticate, requireAdmin, async (req, res) => {
+    try {
+        const { resources } = await cloudinary.search
+            .expression('folder:english-galaxy-uploads')
+            .sort_by('created_at', 'desc')
+            .max_results(50)
+            .execute();
+        res.json(resources);
+    } catch (err) {
+        console.error("Cloudinary fetch error:", err);
+        res.status(500).json({ error: "Failed to fetch media" });
+    }
+});
+
+// Admin delete media
+app.delete('/api/admin/media', authenticate, requireAdmin, async (req, res) => {
+    try {
+        const public_id = req.query.public_id;
+        if (!public_id) return res.status(400).json({ error: "No public_id provided" });
+        await cloudinary.uploader.destroy(public_id);
+        res.json({ message: "Deleted successfully" });
+    } catch (err) {
+        console.error("Cloudinary delete error:", err);
+        res.status(500).json({ error: "Failed to delete media" });
+    }
 });
 
 // Start Server (only if not in Vercel)

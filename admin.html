@@ -210,8 +210,12 @@
 
         <!-- MEDIA MANAGER TAB -->
         <section id="tab-media-manager" class="admin-tab-content" style="display: none;">
-            <h1 style="margin-bottom: var(--space-lg);">Media Manager</h1>
-            <div class="admin-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-lg);">
+                <h1>Media Manager</h1>
+                <button class="btn btn-primary" onclick="loadMediaGallery()"><i data-lucide="refresh-cw" style="width: 18px; margin-right: 8px;"></i> Refresh</button>
+            </div>
+            
+            <div class="admin-card" style="margin-bottom: var(--space-lg);">
                 <h3>Upload New File</h3>
                 <p style="color: var(--text-muted); margin-bottom: var(--space-md);">Upload PDFs, MP3s, or MP4s to the server. You will get a URL to use in the Content Editor.</p>
                 <form id="upload-form" style="display: flex; gap: var(--space-md); align-items: center;">
@@ -219,6 +223,16 @@
                     <button type="submit" class="btn btn-accent">Upload File</button>
                 </form>
                 <div id="upload-result" style="margin-top: var(--space-md); font-weight: bold; color: var(--success);"></div>
+            </div>
+
+            <div class="admin-card">
+                <h3>Cloudinary Library</h3>
+                <p style="color: var(--text-muted); margin-bottom: var(--space-md);">Click copy to copy URL, or delete to permanently remove the file.</p>
+                <div id="media-gallery" class="media-gallery-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: var(--space-md);">
+                    <div style="text-align:center; grid-column: 1 / -1; padding: var(--space-xl); color: var(--text-muted);">
+                        Loading media...
+                    </div>
+                </div>
             </div>
         </section>
 
