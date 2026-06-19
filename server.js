@@ -311,7 +311,12 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
     res.json({ url: req.file.path });
 });
 
-// Start Server
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
+// Start Server (only if not in Vercel)
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, () => {
+        console.log(`Server is running on http://localhost:${PORT}`);
+    });
+}
+
+// Required for Vercel
+module.exports = app;
