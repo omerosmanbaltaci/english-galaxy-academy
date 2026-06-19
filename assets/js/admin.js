@@ -534,24 +534,24 @@ async function loadMediaGallery() {
 
         gallery.innerHTML = resources.map(file => {
             const isImage = file.format === 'jpg' || file.format === 'png' || file.format === 'gif' || file.format === 'webp';
-            const icon = isImage ? \<img src="\" style="width:100%; height:120px; object-fit:cover; border-radius:8px; margin-bottom:8px;">\ 
-                                 : \<div style="height:120px; background:var(--bg-main); border-radius:8px; display:flex; align-items:center; justify-content:center; margin-bottom:8px;"><i data-lucide="file" style="width:48px; height:48px; color:var(--primary);"></i></div>\;
+            const icon = isImage ? `<img src="${file.secure_url}" style="width:100%; height:120px; object-fit:cover; border-radius:8px; margin-bottom:8px;">` 
+                                 : `<div style="height:120px; background:var(--bg-main); border-radius:8px; display:flex; align-items:center; justify-content:center; margin-bottom:8px;"><i data-lucide="file" style="width:48px; height:48px; color:var(--primary);"></i></div>`;
             
-            return \
+            return `
                 <div class="admin-card" style="padding: 12px; display: flex; flex-direction: column; justify-content: space-between;">
                     <div>
-                        \
+                        ${icon}
                         <div style="font-size:0.85rem; word-break:break-all; margin-bottom:8px; color:var(--text-color);">
-                            <strong>\</strong><br>
-                            <span style="color:var(--text-muted);">\ KB</span>
+                            <strong>${file.public_id.split('/').pop()}</strong><br>
+                            <span style="color:var(--text-muted);">${(file.bytes / 1024).toFixed(1)} KB</span>
                         </div>
                     </div>
                     <div style="display:flex; gap:8px;">
-                        <button class="btn btn-outline" style="flex:1; padding:6px; font-size:0.8rem;" onclick="navigator.clipboard.writeText('\'); alert('URL Copied!')">Copy URL</button>
-                        <button class="btn" style="background:#ef4444; color:white; padding:6px;" onclick="deleteMedia('\')"><i data-lucide="trash-2" style="width:16px;"></i></button>
+                        <button class="btn btn-outline" style="flex:1; padding:6px; font-size:0.8rem;" onclick="navigator.clipboard.writeText('${file.secure_url}'); alert('URL Copied!')">Copy URL</button>
+                        <button class="btn" style="background:#ef4444; color:white; padding:6px;" onclick="deleteMedia('${file.public_id}')"><i data-lucide="trash-2" style="width:16px;"></i></button>
                     </div>
                 </div>
-            \;
+            `;
         }).join('');
         lucide.createIcons();
     } catch (err) {
