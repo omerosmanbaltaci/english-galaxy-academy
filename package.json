@@ -1,0 +1,32 @@
+{
+  "name": "english-galaxy-academy",
+  "version": "1.0.0",
+  "description": "Educational English platform aligning with MEB curriculum and general English learning paths",
+  "main": "index.html",
+  "scripts": {
+    "dev": "lite-server",
+    "index": "node scripts/generate-search-index.js"
+  },
+  "keywords": [
+    "english",
+    "meb",
+    "curriculum",
+    "education"
+  ],
+  "author": "English Galaxy Academy",
+  "license": "ISC",
+  "devDependencies": {
+    "lite-server": "^2.6.1",
+    "prisma": "^5.22.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.1.1",
+    "xlsx": "^0.18.5"
+  }
+}

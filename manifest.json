@@ -1,0 +1,21 @@
+{
+  "name": "English Galaxy Academy",
+  "short_name": "EngGalaxy",
+  "description": "Comprehensive English learning platform supporting learners from primary school to advanced levels.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "icons": [
+    {
+      "src": "/assets/images/logo_small.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/images/logo_small.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

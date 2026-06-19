@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog & Educational Resources | English Galaxy Academy</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Read our latest blog articles about effective English teaching strategies, ESL game instructions, and curriculum updates.">
+    <meta name="keywords" content="English teaching blog, ESL articles, teaching advice, language learning blog, school subjects advice">
+    <link rel="canonical" href="https://englishgalaxyacademy.com/blog.html">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+<script src="/assets/js/theme-loader.js"></script>
+</head>
+<body>
+
+    <div id="header-wrapper"></div>
+
+    <main class="container section">
+        <!-- Page Header -->
+        <div style="margin-bottom: var(--space-xl); border-bottom: 1px solid var(--border-color); padding-bottom: var(--space-md);">
+            <ul class="breadcrumbs">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-separator">></li>
+                <li class="breadcrumb-item active">Blog</li>
+            </ul>
+            <h1><svg style="margin-right:8px; vertical-align: bottom;" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"></path><path d="M18 14h-8"></path><path d="M15 18h-5"></path><path d="M10 6h8v4h-8V6Z"></path></svg> <span data-i18n="blog_title">Blog & Learning Strategies</span></h1>
+            <p style="font-size: 1.15rem; color: var(--text-muted);" data-i18n="blog_desc">Stay updated with educational tips, language study techniques, lesson planning advice, and platform news.</p>
+        </div>
+
+        <div class="sidebar-layout">
+            <!-- Sidebar Navigation -->
+            <aside class="sidebar">
+                <h3 class="sidebar-title" data-i18n="blog_cat">Categories</h3>
+                <ul class="sidebar-menu">
+                    <li><a href="search.html?level=blog" class="sidebar-item-link" data-i18n="blog_all">All Articles</a></li>
+                    <li><a href="search.html?level=blog&q=teaching" class="sidebar-item-link" data-i18n="blog_teaching">Teaching Tips</a></li>
+                    <li><a href="search.html?level=blog&q=strategies" class="sidebar-item-link" data-i18n="blog_methods">Learning Methods</a></li>
+                </ul>
+            </aside>
+
+            <!-- Main Panel Content -->
+            <div class="main-content">
+                <h2 data-i18n="blog_latest">Latest Articles</h2>
+                
+                <div class="card-grid" id="blog-grid" style="grid-template-columns: 1fr;">
+                    <!-- Dynamically populated blog posts -->
+                    <div style="text-align: center; padding: var(--space-md); color: var(--text-muted);" data-i18n="blog_loading">Loading articles...</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="footer-wrapper"></div>
+
+    <script src="assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('http://localhost:3000/api/lessons')
+                .then(res => res.json())
+                .then(data => {
+                    const grid = document.getElementById('blog-grid');
+                    // Filter blog items
+                    const items = data.filter(item => item.level === 'blog');
+                    
+                    if (items.length === 0) {
+                        grid.innerHTML = '<p style="color: var(--text-muted);" data-i18n="blog_no_posts">No blog posts found.</p>';
+                        if (window.applyTranslations) window.applyTranslations();
+                        return;
+                    }
+
+                    let html = '';
+                    items.forEach(item => {
+                        html += `
+                            <div class="card" style="flex-direction: row; align-items: center; gap: var(--space-md); padding: var(--space-md); margin-bottom: var(--space-md);">
+                                <div style="font-size: 3.5rem; user-select: none; padding-left: var(--space-sm);">📰</div>
+                                <div class="card-content" style="padding: 0;">
+                                    <div class="card-tags">
+                                        ${item.tags ? item.tags.map(t => `<span class="badge" style="background-color: var(--primary); font-size: 0.65rem;">#${t}</span>`).join(' ') : ''}
+                                    </div>
+                                    <h3 class="card-title" style="margin-top: var(--space-xs);">${item.title}</h3>
+                                    <p class="card-desc" style="font-size: 0.9rem; margin-bottom: var(--space-sm);">${item.description}</p>
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <span style="font-size: 0.8rem; color: var(--text-muted);">⏱️ <span data-i18n="blog_read_time">Reading Time:</span> ${item.estimatedReadingTime || '5 mins'}</span>
+                                        <a href="viewer.html?id=${item.id}" class="btn btn-secondary" style="min-height: 36px; padding: 6px 16px; font-size: 0.85rem;" data-i18n="blog_read_more">Read More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    grid.innerHTML = html;
+                    if (window.applyTranslations) window.applyTranslations();
+                })
+                .catch(err => {
+                    console.error('Error rendering blog resources:', err);
+                });
+        });
+    </script>
+</body>
+</html>
+

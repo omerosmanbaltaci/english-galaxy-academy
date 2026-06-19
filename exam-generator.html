@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Generator | English Galaxy Academy</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .exam-tabs { display: flex; gap: var(--space-sm); margin-bottom: var(--space-lg); border-bottom: 1px solid var(--border-color); }
+        .exam-tab { padding: var(--space-sm) var(--space-md); cursor: pointer; font-weight: 600; color: var(--text-muted); border-bottom: 2px solid transparent; }
+        .exam-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+        
+        .sub-tabs { display: flex; gap: var(--space-sm); margin-bottom: var(--space-md); }
+        .sub-tab { padding: 6px 12px; cursor: pointer; border-radius: var(--radius-sm); background-color: var(--bg-surface); color: var(--text-muted); font-size: 0.9rem; }
+        .sub-tab.active { background-color: var(--primary); color: var(--text-white); }
+
+        .form-group { margin-bottom: var(--space-md); }
+        .form-label { display: block; font-weight: 600; margin-bottom: var(--space-xs); }
+        .form-select { width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); background-color: var(--bg-surface); color: var(--text-main); }
+        
+        .outcomes-list { border: 1px solid var(--border-color); border-radius: var(--radius-sm); max-height: 300px; overflow-y: auto; padding: var(--space-sm); background-color: var(--bg-surface); }
+        .outcome-item { display: flex; align-items: flex-start; gap: var(--space-sm); margin-bottom: var(--space-xs); font-size: 0.9rem; padding: var(--space-xs); border-radius: var(--radius-sm); cursor: pointer; }
+        .outcome-item:hover { background-color: var(--border-color); }
+        .outcome-item input { margin-top: 4px; }
+
+        .basket-container { margin-top: var(--space-xl); padding: var(--space-md); border: 1px dashed var(--primary); border-radius: var(--radius-md); background-color: rgba(37, 99, 235, 0.05); }
+        .basket-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border-color); font-size: 0.9rem; }
+        .basket-item:last-child { border-bottom: none; }
+        .remove-btn { color: var(--error); background: none; border: none; cursor: pointer; font-weight: bold; }
+
+        .questions-container { margin-top: var(--space-xl); }
+        .question-card { background-color: var(--bg-card); border: 1px solid var(--border-color); padding: var(--space-md); border-radius: var(--radius-md); margin-bottom: var(--space-sm); }
+        .q-outcome-code { display: inline-block; background-color: var(--bg-surface); border: 1px solid var(--border-color); padding: 2px 6px; border-radius: var(--radius-sm); font-size: 0.75rem; color: var(--primary); margin-bottom: var(--space-xs); }
+        
+        .saved-exam-card { background-color: var(--bg-card); border: 1px solid var(--border-color); padding: var(--space-md); border-radius: var(--radius-md); margin-bottom: var(--space-sm); display: flex; justify-content: space-between; align-items: center; }
+    </style>
+<script src="/assets/js/theme-loader.js"></script>
+</head>
+<body>
+    <div id="header-wrapper"></div>
+
+    <main class="container section">
+        <div style="margin-bottom: var(--space-xl); border-bottom: 1px solid var(--border-color); padding-bottom: var(--space-md);">
+            <ul class="breadcrumbs">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-separator">></li>
+                <li class="breadcrumb-item"><a href="teachers.html">Teacher Portal</a></li>
+                <li class="breadcrumb-separator">></li>
+                <li class="breadcrumb-item active">Exam Generator</li>
+            </ul>
+            <h1><svg style="margin-right:8px; vertical-align: bottom;" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg> <span data-i18n="exam_title">Exam Generator</span></h1>
+            <p style="font-size: 1.15rem; color: var(--text-muted);" data-i18n="exam_desc">Create curriculum-aligned exams instantly. Select your grade, unit, and outcomes to generate customized test papers.</p>
+        </div>
+
+        <div class="exam-tabs">
+            <div class="exam-tab active" id="tab-generate" onclick="switchTab('generate')" data-i18n="exam_generate">Generate Exam</div>
+            <div class="exam-tab" id="tab-saved" onclick="switchTab('saved')" data-i18n="exam_saved">My Saved Exams</div>
+        </div>
+
+        <!-- GENERATE EXAM VIEW -->
+        <div id="view-generate">
+            <div class="sub-tabs">
+                <div class="sub-tab active" id="subtab-written" onclick="setExamType('written')" data-i18n="exam_written">📝 Written Exam</div>
+                <div class="sub-tab" id="subtab-listening" onclick="setExamType('listening')" data-i18n="exam_listening">🎧 Listening Exam</div>
+                <div class="sub-tab" id="subtab-speaking" onclick="setExamType('speaking')" data-i18n="exam_speaking">💬 Speaking Exam</div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg);">
+                <div>
+                    <div class="form-group">
+                        <label class="form-label" data-i18n="exam_select_grade">Select Grade Level:</label>
+                        <select class="form-select" id="select-grade" onchange="loadUnits()">
+                            <option value="" data-i18n="exam_choose_grade">-- Choose Grade --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" data-i18n="exam_select_unit">Select Unit:</label>
+                        <select class="form-select" id="select-unit" onchange="loadOutcomes()" disabled>
+                            <option value="" data-i18n="exam_choose_unit">-- Choose Unit --</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <div class="form-group">
+                        <label class="form-label" data-i18n="exam_select_outcomes">Select Learning Outcomes:</label>
+                        <div style="display: flex; gap: var(--space-sm);">
+                            <select class="form-select" id="select-outcome" disabled>
+                                <option value="" data-i18n="exam_choose_unit_first">-- Choose Unit First --</option>
+                            </select>
+                            <button class="btn btn-outline" id="btn-add-outcome" style="white-space: nowrap;" onclick="addOutcomeFromDropdown()" disabled data-i18n="exam_add_basket">Add to Basket</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Basket -->
+            <div class="basket-container">
+                <h3 style="margin-bottom: var(--space-sm);" data-i18n="exam_basket_title">Selected Outcomes Basket</h3>
+                <div id="basket-list">
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0;" data-i18n="exam_basket_empty">No outcomes selected yet.</p>
+                </div>
+                <button class="btn btn-primary" id="btn-generate-exam" style="margin-top: var(--space-md); width: 100%; display: none;" onclick="generateExam()">a"️ Generate Exam Questions</button>
+            </div>
+
+            <!-- Generated Questions Area -->
+            <div id="generated-area" style="display: none;">
+                <h2 style="margin-top: var(--space-xl); border-bottom: 2px solid var(--primary); padding-bottom: var(--space-xs); display: inline-block;">Exam Preview</h2>
+                <div class="questions-container" id="questions-list"></div>
+                
+                <div style="margin-top: var(--space-xl); display: flex; gap: var(--space-md); border-top: 1px solid var(--border-color); padding-top: var(--space-md); align-items: center; flex-wrap: wrap;">
+                    <button class="btn btn-success" id="btn-create-zip" style="background-color: var(--success); color: white; border: none;" onclick="downloadZip()">📥 Create & Download ZIP</button>
+                    <div style="display: flex; gap: var(--space-sm); align-items: center; border-left: 1px solid var(--border-color); padding-left: var(--space-md);">
+                        <input type="text" id="exam-name-input" class="form-select" placeholder="Exam Name (e.g. Unit 3 Quiz)" style="width: 250px; padding: 6px 12px;">
+                        <button class="btn btn-outline" id="btn-save-exam" onclick="saveExam()">💾 Save Exam to Portal</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SAVED EXAMS VIEW -->
+        <div id="view-saved" style="display: none;">
+            <h2 style="margin-bottom: var(--space-md);">My Saved Exams</h2>
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; text-align: left; background-color: var(--bg-card); border-radius: var(--radius-md); overflow: hidden;">
+                    <thead style="background-color: var(--bg-surface); border-bottom: 2px solid var(--border-color);">
+                        <tr>
+                            <th style="padding: 16px; font-weight: 600;">Exam Type</th>
+                            <th style="padding: 16px; font-weight: 600;">Grade Level</th>
+                            <th style="padding: 16px; font-weight: 600;">Exam Name</th>
+                            <th style="padding: 16px; font-weight: 600;">Date Created</th>
+                            <th style="padding: 16px; font-weight: 600;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="saved-exams-list">
+                        <tr><td colspan="5" style="padding: 16px; color: var(--text-muted);">You haven't saved any exams yet.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Preview Modal -->
+        <dialog id="preview-modal" style="width: 90%; max-width: 800px; padding: var(--space-lg); border: 1px solid var(--border-color); border-radius: var(--radius-md); background: var(--bg-main); color: var(--text-main); box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: var(--space-sm); margin-bottom: var(--space-md);">
+                <h2 id="preview-title" style="margin: 0; font-size: 1.5rem;">Exam Preview</h2>
+                <button onclick="document.getElementById('preview-modal').close()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-main);">S"</button>
+            </div>
+            <div id="preview-content" style="max-height: 60vh; overflow-y: auto; padding-right: var(--space-sm);"></div>
+            <div style="margin-top: var(--space-md); text-align: right; border-top: 1px solid var(--border-color); padding-top: var(--space-md);">
+                <button class="btn btn-outline" onclick="document.getElementById('preview-modal').close()">Close</button>
+            </div>
+        </dialog>
+
+    </main>
+
+    <div id="footer-wrapper"></div>
+
+    <!-- JSZip for ZIP creation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    
+    <!-- Scripts -->
+    <script src="assets/js/taxonomy.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/exam-generator.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert("This page is for approved teachers only. Please log in.");
+                window.location.href = "teachers.html";
+                return;
+            }
+            try {
+                const res = await fetch('http://localhost:3000/api/auth/me', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (!res.ok) throw new Error("Unauthorized");
+                const user = await res.json();
+                if (user.status !== 'APPROVED' && user.role !== 'ADMIN') {
+                    alert("Your account is pending approval.");
+                    window.location.href = "teachers.html";
+                }
+            } catch (err) {
+                alert("Authentication failed. Please log in.");
+                window.location.href = "teachers.html";
+            }
+        });
+    </script>
+</body>
+</html>
+

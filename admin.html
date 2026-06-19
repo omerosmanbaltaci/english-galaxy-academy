@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | English Galaxy Academy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        body { background-color: var(--bg-main); color: var(--text-main); }
+        .admin-layout { display: none; /* Hidden by default until login */ min-height: 100vh; }
+        .admin-sidebar { width: 260px; background-color: var(--bg-surface); border-right: 1px solid var(--border-color); padding: var(--space-lg); }
+        .admin-main { flex: 1; padding: var(--space-xl); overflow-y: auto; }
+        .admin-nav { list-style: none; padding: 0; margin-top: var(--space-xl); }
+        .admin-nav li { margin-bottom: var(--space-sm); }
+        .admin-nav a { display: block; padding: 12px 16px; border-radius: var(--radius-sm); color: var(--text-muted); text-decoration: none; font-weight: 500; transition: var(--transition); }
+        .admin-nav a:hover, .admin-nav a.active { background-color: var(--primary-light); color: var(--primary); }
+        .form-group { margin-bottom: var(--space-md); }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); background-color: var(--bg-main); color: var(--text-main); font-family: var(--font-primary); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); }
+        .admin-card { background-color: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: var(--space-lg); margin-bottom: var(--space-xl); }
+        .lessons-table { width: 100%; border-collapse: collapse; margin-top: var(--space-md); }
+        .lessons-table th, .lessons-table td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border-color); }
+        .lessons-table th { background-color: var(--bg-main); font-weight: 600; font-size: 0.9rem; }
+        
+        /* LOGIN OVERLAY STYLES */
+        #admin-login-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--bg-main); z-index: 10000; display: flex; align-items: center; justify-content: center; }
+        .login-box { background: var(--bg-surface); padding: 40px; border-radius: var(--radius-md); border: 1px solid var(--border-color); width: 100%; max-width: 400px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .login-box input { width: 100%; padding: 15px; margin-bottom: 20px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 1.1rem; background: var(--bg-main); color: var(--text-main); text-align: center;}
+        .login-box button { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: var(--radius-sm); font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: background 0.2s;}
+        .login-box button:hover { background: var(--primary-dark); }
+        .login-error { color: #ef4444; margin-top: 15px; font-size: 0.9rem; display: none; }
+    </style>
+<script src="/assets/js/theme-loader.js"></script>
+</head>
+<body>
+
+<!-- LOGIN OVERLAY -->
+<div id="admin-login-overlay">
+    <div class="login-box">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 20px;"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        <h2 style="margin-bottom: 30px;">Galaxy Admin</h2>
+        <input type="password" id="admin-password" placeholder="Admin Password" autofocus onkeypress="if(event.key === 'Enter') checkAdminLogin()">
+        <button onclick="checkAdminLogin()">Access Terminal</button>
+        <div id="login-error" class="login-error">Incorrect password. Access denied.</div>
+    </div>
+</div>
+
+<div class="admin-layout" id="admin-layout-wrapper">
+    <aside class="admin-sidebar">
+        <h2 style="font-size: 1.5rem; color: var(--primary); display: flex; align-items: center; gap: 8px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            Galaxy Admin
+        </h2>
+        <ul class="admin-nav">
+            <li><a href="#" class="active" onclick="switchTab('dashboard')"><i data-lucide="layout-dashboard" style="width: 18px; margin-right: 8px;"></i> Dashboard</a></li>
+            <li><a href="#" onclick="switchTab('content-editor')"><i data-lucide="pen-tool" style="width: 18px; margin-right: 8px;"></i> Content Editor</a></li>
+            <li><a href="#" onclick="switchTab('media-manager')"><i data-lucide="folder-open" style="width: 18px; margin-right: 8px;"></i> Media Manager</a></li>
+            <li><a href="#" onclick="switchTab('teacher-approvals')"><i data-lucide="users-round" style="width: 18px; margin-right: 8px;"></i> Teacher Approvals</a></li>
+            <li><a href="#" onclick="switchTab('theme-customizer')"><i data-lucide="palette" style="width: 18px; margin-right: 8px;"></i> Theme Customizer</a></li>
+            <li><a href="#" onclick="logoutAdmin()" style="margin-top: 2rem; color: #ef4444;"><i data-lucide="log-out" style="width: 18px; margin-right: 8px;"></i> Secure Logout</a></li>
+            <li><a href="index.html" style="color: var(--text-muted);"><i data-lucide="arrow-left" style="width: 18px; margin-right: 8px;"></i> Back to Site</a></li>
+        </ul>
+    </aside>
+
+    <main class="admin-main">
+        
+        <!-- DASHBOARD TAB -->
+        <section id="tab-dashboard" class="admin-tab-content">
+            <h1 style="margin-bottom: var(--space-lg);">Platform Dashboard</h1>
+            <div class="admin-card">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3>All Published Lessons</h3>
+                    <button class="btn btn-primary" onclick="switchTab('content-editor')">+ New Lesson</button>
+                </div>
+                <table class="lessons-table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Grade & Unit</th>
+                            <th>Type</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-lessons-list">
+                        <tr><td colspan="5" style="text-align:center;">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- CONTENT EDITOR TAB -->
+        <section id="tab-content-editor" class="admin-tab-content" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-lg);">
+                <h1 id="editor-title">Create New Lesson</h1>
+                <button type="button" id="cancel-edit-btn" class="btn btn-outline" style="display: none; padding: 6px 12px;" onclick="cancelEdit()">Cancel Edit</button>
+            </div>
+            
+            <form id="lesson-form" class="admin-card">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Lesson Title</label>
+                        <input type="text" id="l-title" required placeholder="e.g. Unit 1: Hello - Vocabulary">
+                    </div>
+                    <div class="form-group">
+                        <label>Resource Type</label>
+                        <select id="l-type" required>
+                            <option value="lesson">Lesson (Ders)</option>
+                            <option value="worksheet">Worksheet (Ã‡alÄ±ÅŸma KaÄŸÄ±dÄ±)</option>
+                            <option value="exam">Exam (SÄ±nav)</option>
+                            <option value="Interactive Reading">Interactive Reading (Okuma & Soru)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Grade Level</label>
+                        <select id="l-grade" required>
+                            <optgroup label="Primary School">
+                                <option value="grade-2">Grade 2</option>
+                                <option value="grade-3">Grade 3</option>
+                                <option value="grade-4">Grade 4</option>
+                            </optgroup>
+                            <optgroup label="Middle School">
+                                <option value="grade-5">Grade 5</option>
+                                <option value="grade-6">Grade 6</option>
+                                <option value="grade-7">Grade 7</option>
+                                <option value="grade-8">Grade 8</option>
+                                <option value="lgs">LGS Prep</option>
+                            </optgroup>
+                            <optgroup label="High School">
+                                <option value="grade-9">Grade 9</option>
+                                <option value="grade-10">Grade 10</option>
+                                <option value="grade-11">Grade 11</option>
+                                <option value="grade-12">Grade 12</option>
+                                <option value="yks">YDT / YKS Prep</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Unit</label>
+                        <select id="l-unit" required>
+                            <option value="unit-1">Unit 1</option>
+                            <option value="unit-2">Unit 2</option>
+                            <option value="unit-3">Unit 3</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                    <input type="text" id="l-desc" placeholder="Brief summary of the lesson">
+                </div>
+
+                <div class="form-group">
+                    <label>Content Body (Markdown Format)</label>
+                    <textarea id="l-body" rows="10" placeholder="# Lesson Title\n\nEnter text here..."></textarea>
+                </div>
+
+                <!-- Interactive Questions Builder (Hidden by default) -->
+                <div id="interactive-builder-admin" style="display: none; background: rgba(37, 99, 235, 0.03); padding: var(--space-md); border-radius: var(--radius-md); border: 1px solid var(--border-color); margin-bottom: var(--space-md);">
+                    <h4 style="margin-bottom: var(--space-xs);">Interactive Questions</h4>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: var(--space-md);">Add questions related to the content body above.</p>
+                    
+                    <div id="admin-questions-container" style="display: flex; flex-direction: column; gap: var(--space-sm); margin-bottom: var(--space-md);">
+                        <!-- Dynamic questions will be injected here -->
+                    </div>
+
+                    <button type="button" id="admin-add-question-btn" class="btn btn-outline" style="width: 100%; border-style: dashed;">
+                        + Add a Question
+                    </button>
+                </div>
+
+                <h3 style="margin: var(--space-xl) 0 var(--space-md); border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">External Links & Media (Optional)</h3>
+                
+                <div class="form-group">
+                    <label>YouTube Video URL</label>
+                    <input type="url" id="l-video-url" placeholder="e.g. https://www.youtube.com/watch?v=...">
+                </div>
+
+                <div class="form-group">
+                    <label>External PDF Link (Google Drive, OneDrive, etc.)</label>
+                    <input type="url" id="l-pdf-url" placeholder="e.g. https://drive.google.com/file/d/...">
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">If you provide a link here, it will be used instead of an uploaded file.</p>
+                </div>
+
+                <h3 style="margin: var(--space-xl) 0 var(--space-md); border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">Attached Document (Optional)</h3>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Upload Document (PDF/Word)</label>
+                        <input type="file" id="l-file" style="padding: 8px;">
+                    </div>
+                    <div class="form-group">
+                        <label>Who is this document for?</label>
+                        <select id="l-audience">
+                            <option value="both">Both (Her İkisi İçin)</option>
+                            <option value="student">Students Only (Sadece Öğrenciler)</option>
+                            <option value="teacher">Teachers Only (Sadece Öğretmenler)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" id="submit-lesson-btn" class="btn btn-primary" style="width: 100%; padding: 16px; font-size: 1.1rem; margin-top: var(--space-md);"><i data-lucide="send" style="width: 18px; margin-right: 8px;"></i> Publish Lesson to Database</button>
+            </form>
+        </section>
+
+        <!-- MEDIA MANAGER TAB -->
+        <section id="tab-media-manager" class="admin-tab-content" style="display: none;">
+            <h1 style="margin-bottom: var(--space-lg);">Media Manager</h1>
+            <div class="admin-card">
+                <h3>Upload New File</h3>
+                <p style="color: var(--text-muted); margin-bottom: var(--space-md);">Upload PDFs, MP3s, or MP4s to the server. You will get a URL to use in the Content Editor.</p>
+                <form id="upload-form" style="display: flex; gap: var(--space-md); align-items: center;">
+                    <input type="file" id="media-file" required style="flex: 1; padding: 12px; background: var(--bg-main); border: 1px dashed var(--border-color);">
+                    <button type="submit" class="btn btn-accent">Upload File</button>
+                </form>
+                <div id="upload-result" style="margin-top: var(--space-md); font-weight: bold; color: var(--success);"></div>
+            </div>
+        </section>
+
+        <!-- TEACHER APPROVALS TAB -->
+        <section id="tab-teacher-approvals" class="admin-tab-content" style="display: none;">
+            <h1 style="margin-bottom: var(--space-lg);">Teacher Approvals</h1>
+            <div class="admin-card">
+                <h3>Registered Teachers</h3>
+                <table class="lessons-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>School</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-teachers-list">
+                        <tr><td colspan="5" style="text-align:center;">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- THEME CUSTOMIZER TAB -->
+        <section id="tab-theme-customizer" class="admin-tab-content" style="display: none;">
+            <h1 style="margin-bottom: var(--space-lg);">Global Theme Customizer</h1>
+            
+            <div class="admin-card">
+                <h3 style="margin-bottom: var(--space-md);">1. Predefined Aesthetic Themes</h3>
+                <div style="display: flex; gap: var(--space-md); margin-bottom: var(--space-xl);">
+                    <button class="btn btn-outline" style="flex:1; border-color: #2563eb; color: #2563eb;" onclick="applyPreset('galaxy')">Galaxy Blue (Default)</button>
+                    <button class="btn btn-outline" style="flex:1; background: #0f172a; color: white; border-color: #0f172a;" onclick="applyPreset('midnight')">Midnight Dark</button>
+                    <button class="btn btn-outline" style="flex:1; background: #fff7ed; color: #ea580c; border-color: #ea580c;" onclick="applyPreset('sunset')">Sunset Orange</button>
+                    <button class="btn btn-outline" style="flex:1; background: #f0fdf4; color: #16a34a; border-color: #16a34a;" onclick="applyPreset('forest')">Forest Green</button>
+                </div>
+
+                <h3 style="margin-bottom: var(--space-md); padding-top: var(--space-lg); border-top: 1px solid var(--border-color);">2. Fine-Tune Colors & Typography</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Primary Brand Color</label>
+                        <div style="display: flex; gap: 8px;">
+                            <input type="color" id="tc-primary" value="#2563eb" style="width: 50px; padding: 0; cursor: pointer;">
+                            <input type="text" id="tc-primary-hex" value="#2563eb" readonly style="flex:1; background: var(--bg-drawer);">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Main Background</label>
+                        <div style="display: flex; gap: 8px;">
+                            <input type="color" id="tc-bg-main" value="#f8fafc" style="width: 50px; padding: 0; cursor: pointer;">
+                            <input type="text" id="tc-bg-main-hex" value="#f8fafc" readonly style="flex:1; background: var(--bg-drawer);">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Surface Background (Cards, Boxes)</label>
+                        <div style="display: flex; gap: 8px;">
+                            <input type="color" id="tc-bg-surface" value="#ffffff" style="width: 50px; padding: 0; cursor: pointer;">
+                            <input type="text" id="tc-bg-surface-hex" value="#ffffff" readonly style="flex:1; background: var(--bg-drawer);">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Main Text Color</label>
+                        <div style="display: flex; gap: 8px;">
+                            <input type="color" id="tc-text-main" value="#1e293b" style="width: 50px; padding: 0; cursor: pointer;">
+                            <input type="text" id="tc-text-main-hex" value="#1e293b" readonly style="flex:1; background: var(--bg-drawer);">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row" style="margin-top: var(--space-md);">
+                    <div class="form-group">
+                        <label>Primary Typography (Body text, UI elements)</label>
+                        <select id="tc-font-primary">
+                            <option value="'Inter', system-ui, sans-serif">Inter (Modern, Clean)</option>
+                            <option value="'Outfit', system-ui, sans-serif">Outfit (Geometric, Friendly)</option>
+                            <option value="'Plus Jakarta Sans', system-ui, sans-serif">Plus Jakarta Sans (Corporate, Sleek)</option>
+                            <option value="'Roboto', system-ui, sans-serif">Roboto (Classic, Legible)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Heading Typography (Titles)</label>
+                        <select id="tc-font-heading">
+                            <option value="'Lora', Georgia, serif">Lora (Elegant, Academic)</option>
+                            <option value="'Playfair Display', Georgia, serif">Playfair Display (Premium, Classic)</option>
+                            <option value="'Outfit', system-ui, sans-serif">Outfit (Bold, Modern)</option>
+                            <option value="'Inter', system-ui, sans-serif">Inter (Uniform, Clean)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" style="width: 100%; padding: 16px; margin-top: var(--space-xl); font-size: 1.1rem;" onclick="saveGlobalTheme()">💾 Save Global Theme</button>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<script src="assets/js/taxonomy.js"></script>
+<script src="assets/js/admin.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+// Mock auth check for Admin Panel
+localStorage.setItem('admin_token', 'mock_admin_token');
+lucide.createIcons();
+
+// Theme Customizer Logic
+const themeInputs = ['primary', 'bg-main', 'bg-surface', 'text-main'];
+
+// Sync color pickers to text inputs
+themeInputs.forEach(id => {
+    document.getElementById(`tc-${id}`).addEventListener('input', (e) => {
+        document.getElementById(`tc-${id}-hex`).value = e.target.value;
+        // Live preview
+        document.documentElement.style.setProperty(`--${id}`, e.target.value);
+    });
+});
+
+const presets = {
+    galaxy: { primary: '#2563eb', 'bg-main': '#f8fafc', 'bg-surface': '#ffffff', 'text-main': '#1e293b', 'font-primary': "'Inter', system-ui, sans-serif", 'font-heading': "'Lora', Georgia, serif" },
+    midnight: { primary: '#3b82f6', 'bg-main': '#0f172a', 'bg-surface': '#1e293b', 'text-main': '#f8fafc', 'font-primary': "'Inter', system-ui, sans-serif", 'font-heading': "'Outfit', system-ui, sans-serif" },
+    sunset: { primary: '#ea580c', 'bg-main': '#fff7ed', 'bg-surface': '#ffffff', 'text-main': '#431407', 'font-primary': "'Outfit', system-ui, sans-serif", 'font-heading': "'Playfair Display', Georgia, serif" },
+    forest: { primary: '#16a34a', 'bg-main': '#f0fdf4', 'bg-surface': '#ffffff', 'text-main': '#052e16', 'font-primary': "'Plus Jakarta Sans', system-ui, sans-serif", 'font-heading': "'Inter', system-ui, sans-serif" }
+};
+
+function applyPreset(name) {
+    const p = presets[name];
+    if(!p) return;
+    document.getElementById('tc-primary').value = p.primary; document.getElementById('tc-primary-hex').value = p.primary;
+    document.getElementById('tc-bg-main').value = p['bg-main']; document.getElementById('tc-bg-main-hex').value = p['bg-main'];
+    document.getElementById('tc-bg-surface').value = p['bg-surface']; document.getElementById('tc-bg-surface-hex').value = p['bg-surface'];
+    document.getElementById('tc-text-main').value = p['text-main']; document.getElementById('tc-text-main-hex').value = p['text-main'];
+    document.getElementById('tc-font-primary').value = p['font-primary'];
+    document.getElementById('tc-font-heading').value = p['font-heading'];
+
+    // Live preview
+    for(const [k, v] of Object.entries(p)) {
+        document.documentElement.style.setProperty(`--${k}`, v);
+    }
+}
+
+async function saveGlobalTheme() {
+    const payload = {
+        primary: document.getElementById('tc-primary').value,
+        "bg-main": document.getElementById('tc-bg-main').value,
+        "bg-surface": document.getElementById('tc-bg-surface').value,
+        "text-main": document.getElementById('tc-text-main').value,
+        "font-primary": document.getElementById('tc-font-primary').value,
+        "font-heading": document.getElementById('tc-font-heading').value
+    };
+
+    try {
+        const res = await fetch('/api/theme', {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer mock_admin_token'
+            },
+            body: JSON.stringify(payload)
+        });
+        if(res.ok) {
+            alert('Theme saved successfully! It is now live globally.');
+        } else {
+            alert('Failed to save theme.');
+        }
+    } catch(err) {
+        console.error(err);
+        alert('Error saving theme.');
+    }
+}
+</script>
+</body>
+</html>
+

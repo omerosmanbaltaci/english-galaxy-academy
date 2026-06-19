@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Portal | English Galaxy Academy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+<script src="/assets/js/theme-loader.js"></script>
+</head>
+<body>
+
+<div id="header-wrapper"></div>
+
+<main class="container section">
+    <div style="text-align: center; margin-bottom: var(--space-xl);">
+        <h1><i data-lucide="users" style="width: 32px; height: 32px; margin-right: 8px;"></i><span data-i18n="teacher_hero_title">Teacher Portal</span></h1>
+        <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto;" data-i18n="teacher_hero_desc">Access exclusive lesson plans, answer keys, exams, and teacher-only resources.</p>
+    </div>
+
+    <!-- Auth View (Login / Register) -->
+    <div id="auth-view" style="display: none;">
+        <div class="form-row" style="gap: var(--space-xl);">
+            <!-- Login Form -->
+            <div class="card" style="padding: var(--space-xl);">
+                <h3 style="margin-bottom: var(--space-md);" data-i18n="teacher_login_title">Login</h3>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label data-i18n="teacher_email">Email Address</label>
+                        <input type="email" id="login-email" required style="width:100%; padding: 12px; margin-bottom: 12px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: var(--bg-main); color: var(--text-main);">
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="teacher_pass">Password</label>
+                        <input type="password" id="login-password" required style="width:100%; padding: 12px; margin-bottom: 16px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: var(--bg-main); color: var(--text-main);">
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;" data-i18n="teacher_login_btn">Log In</button>
+                    <div id="login-error" style="color: var(--error); margin-top: 12px; text-align: center;"></div>
+                </form>
+            </div>
+
+            <!-- Register Form -->
+            <div class="card" style="padding: var(--space-xl); background-color: var(--bg-surface);">
+                <h3 style="margin-bottom: var(--space-md);" data-i18n="teacher_reg_title">Register as a Teacher</h3>
+                <form id="register-form">
+                    <div class="form-group">
+                        <label data-i18n="teacher_reg_name">Full Name</label>
+                        <input type="text" id="reg-name" required style="width:100%; padding: 12px; margin-bottom: 12px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: var(--bg-main); color: var(--text-main);">
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="teacher_reg_school">School/Institution</label>
+                        <input type="text" id="reg-school" required style="width:100%; padding: 12px; margin-bottom: 12px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: var(--bg-main); color: var(--text-main);">
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="teacher_email">Email Address</label>
+                        <input type="email" id="reg-email" required style="width:100%; padding: 12px; margin-bottom: 12px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: var(--bg-main); color: var(--text-main);">
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="teacher_pass">Password</label>
+                        <input type="password" id="reg-password" required style="width:100%; padding: 12px; margin-bottom: 16px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: var(--bg-main); color: var(--text-main);">
+                    </div>
+                    <button type="submit" class="btn btn-accent" style="width: 100%;" data-i18n="teacher_reg_btn">Submit Registration</button>
+                    <div id="reg-msg" style="margin-top: 12px; text-align: center; font-weight: bold;"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pending Approval View -->
+    <div id="pending-view" style="display: none; text-align: center; padding: var(--space-xxl); background: var(--bg-surface); border-radius: var(--radius-lg); border: 1px dashed var(--border-color);">
+        <i data-lucide="clock" style="width: 48px; height: 48px; color: var(--warning);"></i>
+        <h2 style="margin: var(--space-md) 0;" data-i18n="teacher_pending_title">Account Pending Approval</h2>
+        <p style="color: var(--text-muted);" data-i18n="teacher_pending_desc">Thank you for registering! An administrator must verify your school credentials before you can access the teacher portal. Please check back later.</p>
+        <button class="btn btn-outline" onclick="logout()" style="margin-top: var(--space-md);" data-i18n="teacher_logout">Log Out</button>
+    </div>
+
+    <!-- Dashboard View -->
+    <div id="dashboard-view" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-xl); padding-bottom: var(--space-sm); border-bottom: 1px solid var(--border-color);">
+            <h2 id="teacher-welcome" data-i18n="teacher_welcome">Welcome, Teacher</h2>
+            <button class="btn btn-outline" onclick="logout()" data-i18n="teacher_logout">Log Out</button>
+        </div>
+        <!-- Admin Upload Section has been moved exclusively to admin.html for security -->
+
+        <h3 style="margin-bottom: var(--space-md);" data-i18n="teacher_tools">Teacher Tools</h3>
+        <div class="pathways-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-bottom: var(--space-xl);">
+            <!-- Exam Generator -->
+            <div class="pathway-card">
+                <div class="pathway-icon"><i data-lucide="settings" style="width: 24px; height: 24px;"></i></div>
+                <h3 class="pathway-title" data-i18n="teacher_exam">Exam Generator</h3>
+                <p class="pathway-desc" data-i18n="teacher_exam_desc">Instantly create and download written, listening, or speaking exams mapped to MEB outcomes.</p>
+                <a href="exam-generator.html" class="btn btn-primary" style="margin-top: auto;" data-i18n="teacher_exam_btn">Launch Generator</a>
+            </div>
+
+            <!-- Lesson Plans -->
+            <div class="pathway-card">
+                <div class="pathway-icon"><i data-lucide="clipboard-list" style="width: 24px; height: 24px;"></i></div>
+                <h3 class="pathway-title" data-i18n="teacher_lesson">Lesson Plans</h3>
+                <p class="pathway-desc" data-i18n="teacher_lesson_desc">Comprehensive step-by-step procedures, warmups, and classroom activities for every curriculum unit.</p>
+                <a href="search.html?type=teacher-resource" class="btn btn-primary" style="margin-top: auto;" data-i18n="teacher_lesson_btn">Browse Lesson Plans</a>
+            </div>
+
+            <!-- Annual Plans -->
+            <div class="pathway-card">
+                <div class="pathway-icon"><i data-lucide="calendar-days" style="width: 24px; height: 24px;"></i></div>
+                <h3 class="pathway-title" data-i18n="teacher_annual">Annual Plans</h3>
+                <p class="pathway-desc" data-i18n="teacher_annual_desc">Download official MEB-aligned annual curriculum plans for all grades.</p>
+                <a href="search.html?type=annual-plan" class="btn btn-primary" style="margin-top: auto;" data-i18n="teacher_annual_btn">Get Annual Plans</a>
+            </div>
+
+            <!-- ESL Classroom Games -->
+            <div class="pathway-card">
+                <div class="pathway-icon"><i data-lucide="dice-5" style="width: 24px; height: 24px;"></i></div>
+                <h3 class="pathway-title" data-i18n="teacher_games">Classroom Games</h3>
+                <p class="pathway-desc" data-i18n="teacher_games_desc">Keep your students engaged with miming games, word chains, taboo card sets, and card jump challenges.</p>
+                <a href="search.html?type=game" class="btn btn-primary" style="margin-top: auto;" data-i18n="teacher_games_btn">Get Classroom Games</a>
+            </div>
+        </div>
+
+        <h3 id="resources-list" style="margin-top: var(--space-xxl); margin-bottom: var(--space-md); border-top: 1px solid var(--border-color); padding-top: var(--space-lg);" data-i18n="teacher_latest">Latest Teacher Materials & Documents</h3>
+        <div id="teacher-resources-grid" class="card-grid">
+            <p>Loading...</p>
+        </div>
+    </div>
+
+</main>
+
+<div id="footer-wrapper"></div>
+
+<script src="assets/js/main.js"></script>
+<script src="assets/js/taxonomy.js"></script>
+<script src="assets/js/teachers.js"></script>
+</body>
+</html>
+

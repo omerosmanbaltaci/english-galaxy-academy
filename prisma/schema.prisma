@@ -1,0 +1,62 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model AdminUser {
+  id        String   @id @default(uuid())
+  username  String   @unique
+  password  String
+  createdAt DateTime @default(now())
+}
+
+model Lesson {
+  id               String   @id @default(uuid())
+  title            String
+  description      String?
+  grade            String   
+  unit             String   
+  resourceType     String   
+  difficulty       String?
+  skills           String[] 
+  learningOutcomes String[]
+  vocabulary       String[]
+  tags             String[]
+  author           String?
+  contentBody      String   
+  pdfStudent       String?
+  pdfTeacher       String?
+  pdfAnswerKey     String?
+  interactiveData  Json?
+  audioUrl         String?
+  videoUrl         String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+enum Role {
+  ADMIN
+  TEACHER
+}
+
+enum Status {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  fullName  String
+  school    String?
+  role      Role     @default(TEACHER)
+  status    Status   @default(PENDING)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

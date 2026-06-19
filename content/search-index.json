@@ -1,0 +1,392 @@
+[
+  {
+    "title": "Effective English Teaching Strategies for Classrooms",
+    "description": "Discover modern methodologies and interactive classroom games to engage English learners in school environments.",
+    "grade": "",
+    "unit": "",
+    "level": "blog",
+    "resource_type": "blog",
+    "skills": [
+      "vocabulary",
+      "grammar",
+      "pedagogy"
+    ],
+    "learning_outcomes": [
+      ""
+    ],
+    "vocabulary": [
+      "flashcards",
+      "miming",
+      "scaffolded lessons",
+      "gamified learning"
+    ],
+    "tags": [
+      "teaching-tips",
+      "classroom-games",
+      "pedagogy"
+    ],
+    "difficulty": "intermediate",
+    "author": "Galaxy Editor",
+    "version": "1.0",
+    "featured": false,
+    "pdf": {
+      "student": "",
+      "teacher": "",
+      "answer_key": ""
+    },
+    "audio": "",
+    "video": "",
+    "pdfAvailable": false,
+    "audioAvailable": false,
+    "src": "content/blog/effective-english-teaching.md",
+    "bodySnippet": "Effective English Teaching Strategies    Teaching English to primary and middle school students requires a blend of visual resources, game based learning, and interactive speaking activities. Th"
+  },
+  {
+    "title": "Grade 9 Unit 1: Studying Abroad",
+    "description": "Practice introducing yourself, greeting others in formal/informal contexts, and talking about personal belongings and family.",
+    "grade": "grade-9",
+    "unit": "unit-1",
+    "level": "",
+    "resource_type": "lesson",
+    "skills": [
+      "reading",
+      "grammar",
+      "writing"
+    ],
+    "learning_outcomes": [
+      "E9.1.LO1",
+      "E9.1.LO2"
+    ],
+    "vocabulary": [
+      "international student",
+      "host family",
+      "campus",
+      "luggage",
+      "passport"
+    ],
+    "tags": [
+      "studying-abroad",
+      "grammar",
+      "reading",
+      "meb-curriculum"
+    ],
+    "difficulty": "intermediate",
+    "author": "Galaxy Teacher",
+    "version": "1.0",
+    "featured": false,
+    "pdf": {
+      "student": "assets/pdf/grade-9/unit-1-student.pdf",
+      "teacher": "",
+      "answer_key": ""
+    },
+    "audio": "",
+    "video": "",
+    "pdfAvailable": true,
+    "audioAvailable": false,
+    "src": "content/high-school/grade-9/lessons/unit-1-studying-abroad.md",
+    "bodySnippet": "Studying Abroad & Personal Belongings    Welcome to High School English! This lesson covers introductions in academic settings, greeting people formally and informally, and describing personal i"
+  },
+  {
+    "title": "General English A1 - Lesson 1: Meeting People",
+    "description": "Begin your General English journey. Learn standard greetings, introducing yourself, and saying goodbye in English.",
+    "grade": "",
+    "unit": "",
+    "level": "independent-learning",
+    "resource_type": "lesson",
+    "skills": [
+      "speaking",
+      "listening",
+      "grammar"
+    ],
+    "learning_outcomes": [
+      "CEFR A1.1: Greet people",
+      "introduce self and others",
+      "and ask simple personal questions."
+    ],
+    "vocabulary": [
+      "good morning",
+      "good afternoon",
+      "good evening",
+      "how do you do"
+    ],
+    "tags": [
+      "a1-beginner",
+      "general-english",
+      "conversations"
+    ],
+    "difficulty": "beginner",
+    "author": "Galaxy Academy",
+    "version": "1.0",
+    "featured": false,
+    "pdf": {
+      "student": "",
+      "teacher": "",
+      "answer_key": ""
+    },
+    "audio": "",
+    "video": "",
+    "pdfAvailable": false,
+    "audioAvailable": false,
+    "src": "content/independent-learning/a1/lessons/lesson-1-greetings.md",
+    "bodySnippet": "General English A1: Meeting & Greeting People    Welcome to the A1 General English course! In this lesson, we will focus on everyday conversations when meeting someone for the first time."
+  },
+  {
+    "title": "Grade 5 Unit 1: Hello & School Subjects",
+    "description": "Review basic introductions, talk about hobbies, languages spoken, and learn about school subjects in English.",
+    "grade": "grade-5",
+    "unit": "unit-1",
+    "level": "",
+    "resource_type": "lesson",
+    "skills": [
+      "reading",
+      "speaking",
+      "vocabulary"
+    ],
+    "learning_outcomes": [
+      "E5.1.LO1",
+      "countries",
+      "and nationalities.",
+      "E5.1.LO2"
+    ],
+    "vocabulary": [
+      "maths",
+      "science",
+      "history",
+      "geography",
+      "english",
+      "art",
+      "music"
+    ],
+    "tags": [
+      "school-subjects",
+      "vocabulary",
+      "grammar",
+      "meb-curriculum"
+    ],
+    "difficulty": "elementary",
+    "author": "Galaxy Teacher",
+    "version": "1.0",
+    "featured": false,
+    "pdf": {
+      "student": "assets/pdf/grade-5/unit-1-student.pdf",
+      "teacher": "assets/pdf/grade-5/unit-1-teacher.pdf",
+      "answer_key": ""
+    },
+    "audio": "",
+    "video": "",
+    "pdfAvailable": true,
+    "audioAvailable": false,
+    "src": "content/middle-school/grade-5/lessons/unit-1-hello.md",
+    "bodySnippet": "Hello! School Subjects & Hobbies    Welcome to Middle School English! In this unit, we will learn how to introduce ourselves in detail, talk about where we are from, our nationality, and list ou"
+  },
+  {
+    "title": "Grade 1 Unit 1 Greetings - Flashcards Set",
+    "description": "A vocabulary flashcard deck for learning greetings, goodbye, name, and introductions.",
+    "grade": "grade-1",
+    "unit": "unit-1",
+    "level": "",
+    "resource_type": "flashcard",
+    "skills": [
+      "vocabulary"
+    ],
+    "learning_outcomes": [
+      "E1.2.LO2"
+    ],
+    "vocabulary": [
+      "hello",
+      "goodbye",
+      "name",
+      "friend"
+    ],
+    "tags": [
+      "greetings",
+      "vocabulary",
+      "flashcards"
+    ],
+    "difficulty": "beginner",
+    "author": "Galaxy Teacher",
+    "version": "1.0",
+    "featured": false,
+    "pdf": {
+      "student": "assets/pdf/grade-1/unit-1-flashcards.pdf",
+      "teacher": "",
+      "answer_key": ""
+    },
+    "audio": "",
+    "video": "",
+    "pdfAvailable": true,
+    "audioAvailable": false,
+    "src": "content/primary/grade-1/flashcards/unit-1-greetings-fc.md",
+    "bodySnippet": "Greetings Vocabulary Flashcards    Review these key flashcard words for Unit 1.       Flashcard 1: Hello      Word:   Hello / Hi      Pronunciation:   /həˈloʊ/      Definition:   Used as a greet"
+  },
+  {
+    "title": "Grade 1 Unit 1: Greetings & Saying Hello",
+    "description": "Learn basic greetings in English, how to say hello, ask someone's name, and introduce yourself.",
+    "grade": "grade-1",
+    "unit": "unit-1",
+    "level": "",
+    "resource_type": "lesson",
+    "skills": [
+      "speaking",
+      "listening"
+    ],
+    "learning_outcomes": [
+      "E1.2.LO1",
+      "E1.2.LO2"
+    ],
+    "vocabulary": [
+      "hello",
+      "hi",
+      "goodbye",
+      "bye",
+      "name",
+      "I",
+      "you"
+    ],
+    "tags": [
+      "greetings",
+      "vocabulary",
+      "speaking",
+      "meb-curriculum"
+    ],
+    "difficulty": "beginner",
+    "author": "Galaxy Teacher",
+    "version": "1.0",
+    "featured": false,
+    "pdf": {
+      "student": "assets/pdf/grade-1/unit-1-student.pdf",
+      "teacher": "assets/pdf/grade-1/unit-1-teacher.pdf",
+      "answer_key": "assets/pdf/grade-1/unit-1-key.pdf"
+    },
+    "audio": "",
+    "video": "",
+    "pdfAvailable": true,
+    "audioAvailable": false,
+    "src": "content/primary/grade-1/lessons/unit-1-greetings.md",
+    "bodySnippet": "Greetings & Saying Hello    Welcome to your first English lesson! In this lesson, we will learn how to greet people, say hello, and ask for their names.       Learning Objectives    Learn how to"
+  },
+  {
+    "title": "Grade 1 Unit 1 Greetings - Practice Quiz",
+    "description": "Test your understanding of saying hello, introductions, and saying goodbye with this simple quiz.",
+    "grade": "grade-1",
+    "unit": "unit-1",
+    "level": "",
+    "resource_type": "quiz",
+    "skills": [
+      "reading"
+    ],
+    "learning_outcomes": [
+      "E1.2.LO1",
+      "E1.2.LO2"
+    ],
+    "vocabulary": [
+      "hello",
+      "goodbye",
+      "name"
+    ],
+    "tags": [
+      "greetings",
+      "quiz",
+      "assessment"
+    ],
+    "difficulty": "beginner",
+    "author": "Galaxy Teacher",
+    "version": "1.0",
+    "featured": false,
+    "pdf": {
+      "student": "",
+      "teacher": "",
+      "answer_key": "assets/pdf/grade-1/unit-1-quiz-key.pdf"
+    },
+    "audio": "",
+    "video": "",
+    "pdfAvailable": true,
+    "audioAvailable": false,
+    "src": "content/primary/grade-1/quizzes/unit-1-greetings-quiz.md",
+    "bodySnippet": "Greetings & Introductions Quiz    Answer the following multiple choice questions.       Multiple Choice Questions        Question 1: What is the correct response to \"Hello!\"?    A) Goodbye!    B"
+  },
+  {
+    "title": "Grade 1 Unit 1 Greetings - Activity Worksheet",
+    "description": "A printable and interactive worksheet containing coloring, matching, and trace-writing activities for greetings.",
+    "grade": "grade-1",
+    "unit": "unit-1",
+    "level": "",
+    "resource_type": "worksheet",
+    "skills": [
+      "writing",
+      "reading"
+    ],
+    "learning_outcomes": [
+      "E1.2.LO1"
+    ],
+    "vocabulary": [
+      "hello",
+      "goodbye",
+      "name",
+      "I",
+      "you"
+    ],
+    "tags": [
+      "greetings",
+      "worksheet",
+      "writing",
+      "pdf"
+    ],
+    "difficulty": "beginner",
+    "author": "Galaxy Teacher",
+    "version": "1.0",
+    "featured": false,
+    "pdf": {
+      "student": "assets/pdf/grade-1/unit-1-student-ws.pdf",
+      "teacher": "",
+      "answer_key": "assets/pdf/grade-1/unit-1-ws-key.pdf"
+    },
+    "audio": "",
+    "video": "",
+    "pdfAvailable": true,
+    "audioAvailable": false,
+    "src": "content/primary/grade-1/worksheets/unit-1-greetings-ws.md",
+    "bodySnippet": "Greetings & Self Introduction Worksheet    Complete these fun activities to practice greeting friends.       Activity 1: Trace and Write  Trace the dotted words below and practice writing them:"
+  },
+  {
+    "title": "Classroom Games & Flashcard Activities Pack",
+    "description": "A printable teacher pack containing 10 interactive games and flashcard activities for English classrooms.",
+    "grade": "",
+    "unit": "",
+    "level": "resources",
+    "resource_type": "teacher-resource",
+    "skills": [
+      "speaking",
+      "listening"
+    ],
+    "learning_outcomes": [
+      ""
+    ],
+    "vocabulary": [
+      "whiteboard",
+      "flashcard",
+      "classroom",
+      "activity"
+    ],
+    "tags": [
+      "classroom-games",
+      "teacher-pack",
+      "printables"
+    ],
+    "difficulty": "elementary",
+    "author": "Galaxy Editor",
+    "version": "1.0",
+    "featured": false,
+    "pdf": {
+      "student": "",
+      "teacher": "assets/pdf/resources/classroom-games-guide.pdf",
+      "answer_key": ""
+    },
+    "audio": "",
+    "video": "",
+    "pdfAvailable": true,
+    "audioAvailable": false,
+    "src": "content/resources/classroom-games.md",
+    "bodySnippet": "Classroom Games & Flashcard Activities Pack    This resource contains instructions for ten interactive classroom games that teachers can play using vocabulary flashcards.       Game 1: \"What's M"
+  }
+]

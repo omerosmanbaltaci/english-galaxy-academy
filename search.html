@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Resources | English Galaxy Academy</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Search the repository of English Galaxy Academy. Filter by grade, curriculum unit, content type, and CEFR difficulty level.">
+    <link rel="canonical" href="https://englishgalaxyacademy.com/search.html">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+<script src="/assets/js/theme-loader.js"></script>
+</head>
+<body>
+
+    <div id="header-wrapper"></div>
+
+    <main class="container section">
+        <!-- Page Header -->
+        <div style="margin-bottom: var(--space-xl); border-bottom: 1px solid var(--border-color); padding-bottom: var(--space-md);">
+            <ul class="breadcrumbs">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-separator">></li>
+                <li class="breadcrumb-item active">Search</li>
+            </ul>
+            <h1><svg style="margin-right:8px; vertical-align: bottom;" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg> <span data-i18n="search_title">Search Learning Resources</span></h1>
+            <p style="font-size: 1.15rem; color: var(--text-muted);" data-i18n="search_desc">Search and filter our entire repository of curriculum units, worksheets, quizzes, and self-study lessons.</p>
+        </div>
+
+        <!-- Global Search Panel -->
+        <div class="search-panel">
+            <div class="search-input-wrapper">
+                <span class="search-icon-embedded">🔍</span>
+                <input type="text" id="search-input-field" class="search-input" placeholder="Type keywords (e.g. 'greetings', 'primary', 'subjects')..." autofocus>
+            </div>
+        </div>
+
+        <!-- Faceted Search Grid -->
+        <div class="filter-grid">
+            <!-- Left Faceted Filter Sidebar -->
+            <form id="filter-form" onsubmit="return false;">
+                <!-- Section Filter -->
+                <div class="filter-section">
+                    <h4 class="filter-section-title" data-i18n="filter_level">Educational Level</h4>
+                    <div class="filter-group">
+                        <label class="filter-checkbox-label">
+                            <input type="checkbox" name="level" value="primary"> <span data-i18n="filter_primary">Primary School</span>
+                        </label>
+                        <label class="filter-checkbox-label">
+                            <input type="checkbox" name="level" value="middle-school"> <span data-i18n="filter_middle">Middle School</span>
+                        </label>
+                        <label class="filter-checkbox-label">
+                            <input type="checkbox" name="level" value="high-school"> <span data-i18n="filter_high">High School</span>
+                        </label>
+                        <label class="filter-checkbox-label">
+                            <input type="checkbox" name="level" value="independent-learning"> <span data-i18n="filter_general">General English</span>
+                        </label>
+                        <label class="filter-checkbox-label">
+                            <input type="checkbox" name="level" value="resources"> <span data-i18n="filter_teacher">Teacher Packs</span>
+                        </label>
+                        <label class="filter-checkbox-label">
+                            <input type="checkbox" name="level" value="blog"> <span data-i18n="filter_blog">Blog Posts</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Grade Filter -->
+                <div class="filter-section">
+                    <h4 class="filter-section-title" data-i18n="filter_grades">Grade Levels</h4>
+                    <div class="filter-group">
+                        <label class="filter-checkbox-label">
+                            <input type="checkbox" name="grade" value="grade-5"> <span data-i18n="filter_grade5">Grade 5 (Middle)</span>
+                        </label>
+                        <label class="filter-checkbox-label">
+                            <input type="checkbox" name="grade" value="grade-9"> <span data-i18n="filter_grade9">Grade 9 (High)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Content Type Filter -->
+                <div class="filter-section">
+                    <h4 class="filter-section-title" data-i18n="filter_type">Content Type</h4>
+                    <div class="filter-group">
+                        <label class="filter-checkbox-label">
+                            <input type="checkbox" name="type" value="lesson"> <span data-i18n="filter_lesson">Lessons</span>
+                        </label>
+                        <label class="filter-checkbox-label">
+                            <input type="checkbox" name="type" value="worksheet"> <span data-i18n="filter_worksheet">Worksheets</span>
+                        </label>
+                        <label class="filter-checkbox-label">
+                            <input type="checkbox" name="type" value="flashcard"> <span data-i18n="filter_flashcard">Flashcards</span>
+                        </label>
+                        <label class="filter-checkbox-label">
+                            <input type="checkbox" name="type" value="quiz"> <span data-i18n="filter_quiz">Quizzes</span>
+                        </label>
+                        <label class="filter-checkbox-label">
+                            <input type="checkbox" name="type" value="teacher-resource"> <span data-i18n="filter_teacher_res">Teacher Resources</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- CEFR Difficulty Filter -->
+                <div class="filter-section">
+                    <h4 class="filter-section-title" data-i18n="filter_cefr">CEFR Level</h4>
+                    <div class="filter-group">
+                        <label class="filter-checkbox-label">
+                            <input type="checkbox" name="difficulty" value="beginner"> <span data-i18n="filter_a1">A1 Beginner</span>
+                        </label>
+                        <label class="filter-checkbox-label">
+                            <input type="checkbox" name="difficulty" value="elementary"> <span data-i18n="filter_a2">A2 Elementary</span>
+                        </label>
+                        <label class="filter-checkbox-label">
+                            <input type="checkbox" name="difficulty" value="intermediate"> <span data-i18n="filter_b1b2">B1/B2 Intermediate</span>
+                        </label>
+                        <label class="filter-checkbox-label">
+                            <input type="checkbox" name="difficulty" value="advanced"> <span data-i18n="filter_c1">C1 Advanced</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button type="reset" class="btn btn-outline" style="width: 100%; margin-top: var(--space-md); min-height: 38px; font-size: 0.9rem; padding: 8px 16px;" data-i18n="filter_clear">
+🧹 Clear All Filters
+                </button>
+            </form>
+
+            <!-- Right Search Results Panel -->
+            <div>
+                <h3 style="margin-bottom: var(--space-md);" data-i18n="search_results">Results</h3>
+                <div class="card-grid" id="search-results-grid">
+                    <div style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: var(--space-xl);" data-i18n="search_init">
+                        Initializing search data...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="footer-wrapper"></div>
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/search.js"></script>
+</body>
+</html>
+
